@@ -49,13 +49,13 @@ services:
       MYSQL_PASSWORD: test
       MYSQL_ROOT_PASSWORD: test
 
-  # node:
-  #   container_name: node
-  #   build:
-  #     context: ./vuejs
-  #     dockerfile: Dockerfile
-  #   volumes:
-  #     - ./vuejs:/app
-  #     - "/app/node_modules"
-  #   ports:
-  #     - "8080:8080"
+  node:
+    container_name: node
+    build:
+      context: ./vuejs
+      dockerfile: Dockerfile
+    volumes:
+      - ./vuejs:/app
+      - "/app/node_modules"
+    ports:
+      - "8080:8080"
