@@ -18,11 +18,7 @@
    
    sudo docker-compose run --rm php php artisan key:generate
 
-5 Миграция
-   
-   sudo docker-compose run --rm php php artisan migrate
-
-6 Права доступа
+5 Права доступа
    
    sudo chmod -R 777 ./*
 
