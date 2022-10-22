@@ -1,11 +1,15 @@
 <template>
-   <h2>vuejs</h2>
+  <div class="container-fluid">
+     <navbar />
+     <router-view />
+  </div>
 </template>
 
 <script>
+import Navbar from '@/components/Navbar/Navbar.vue';
 
 export default {
-  name: 'App',
+    name: "App",
+    components: { Navbar }
 }
 </script>
-
