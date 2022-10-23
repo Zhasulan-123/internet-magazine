@@ -3,12 +3,9 @@
         <div class="container-fluid">
             <router-link class="navbar-brand" to="/">Shopping</router-link>
             <a class="nav-link justify-content-end" href="#">
-                <router-link class="btn btn-success position-relative" to="/basket">
+                <button class="btn btn-success position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     Корзина
-                    <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                        99+
-                    </span>
-                </router-link>
+                </button>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>

@@ -3,7 +3,7 @@
     <div
       @click="toggle"
       @dblclick="changeType"
-      class="list-group-item list-group-item-action"
+      class="list-group-item list-group-item-action fw-bold text-primary"
     >
       {{ categories.name }}
       <span v-if="isFolder">{{ isOpen ? '-' : '+' }}</span>
@@ -11,6 +11,7 @@
     <ul v-show="isOpen" v-if="isFolder">
       <Categoriies
         v-for="categories in categories.children"
+        :key="categories.id"
         :categories="categories" 
       />
     </ul>
@@ -50,11 +51,6 @@ export default {
             this.isOpen = true
          }
       },
-      
    }
 }
 </script>
-
-<style>
-
-</style>
