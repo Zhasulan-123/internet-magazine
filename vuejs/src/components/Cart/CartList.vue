@@ -1,19 +1,21 @@
 <template>
   <div class="col mt-3">
-    <div class="card text-center" style="width: 18rem;">
+    <div class="card text-center fw-bold" style="width: 18rem;">
         <div class="card-header text-bg-secondary">{{list.name}}</div>
         <div class="card-body">
             <p class="card-text">{{list.description}}</p>
             <p class="card-text">{{list.category}}</p>
             <p class="card-text">{{list.name}}</p>
             <p class="card-title">{{list.price}}</p>
-            <p class="card-text">(длина {{list.leng}}, ширина {{list.width}}, вес {{list.weight}})</p>
+            <p class="card-text">
+              Длина: {{list.leng}}, Ширина: {{list.width}}, Вес: {{list.weight}}
+            </p>
             <p>
-              Кол-во: 
+              Кол-во:
               <input type="number" class="form-control number_w" v-model="list.qty" min="1" max="30" step="1" />
               <InCart v-if="list.inCart" />
             </p>
-            <span v-if="list.inCart" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            <span v-if="list.inCart" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning">
               <CartIcon />+
             </span>
         </div>

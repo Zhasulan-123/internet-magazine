@@ -1,9 +1,19 @@
 <template>
   <div class="container">
     <div class="row" style="margin-top: 6%;">
-      <div class="col">
+      <div class="col-2">
+         <div class="list-group">
+          <span class="list-group-item list-group-item-action active text-center">
+            Меню
+          </span>
+          <a href="#" class="list-group-item list-group-item-action">Категорий 1</a>
+          <a href="#" class="list-group-item list-group-item-action">Категорий 2</a>
+          <a href="#" class="list-group-item list-group-item-action">Категорий 3</a>
+        </div>
+      </div>
+      <div class="col-10">
           <div class="card">
-            <h5 class="card-header text-center text-bg-primary">Ваш заказ</h5>
+            <h5 class="card-header text-center text-bg-primary">Списки Товары <a href="#" @click="logout" class="text-danger float-end">Выход</a></h5>
             <div class="card-body">
               <table class="table">
                 <thead>
@@ -36,6 +46,7 @@
 
 <script>
 import AdminList from "@/components/Admin/AdminList.vue";
+import authAdmin from "@/api/auth.admin";
 
 export default {
    name: 'Admin',
@@ -50,6 +61,11 @@ export default {
             {id: 5, name: 'Название 5', description: 'Описание 5', slug: 'slug 5', category: 'Категория 5', price: '280тн', length: '1.9мм', width: '1.9мм', weight: '2.8гр'},
          ],
       }
-    },
+   },
+   methods: {
+    async logout() {
+      await authAdmin.logout();
+     }
+   },
 }
 </script>

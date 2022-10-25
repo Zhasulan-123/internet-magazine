@@ -2,11 +2,12 @@
     <nav class="navbar navbar-dark bg-primary fixed-top">
         <div class="container-fluid">
             <router-link class="navbar-brand" to="/">Shopping</router-link>
-            <a class="nav-link justify-content-end" href="#">
-                <button class="btn btn-success position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">
-                    Корзина
-                </button>
-            </a>
+            <router-link to="/admin" class="btn btn-danger justify-content-end position-relative">
+                    Администратор
+            </router-link>
+            <router-link to="/user" class="btn btn-success justify-content-end position-relative">
+                    Пользаватель
+            </router-link>
             <button class="navbar-toggler" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar" aria-controls="offcanvasNavbar">
             <span class="navbar-toggler-icon"></span>
             </button>
@@ -23,6 +24,12 @@
                         <li class="nav-item">
                             <a class="nav-link text-bg-light" @click="handleRegistration" data-bs-dismiss="offcanvas" aria-label="Close" href="#">Регистрация</a>
                         </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-bg-light" @click="handleAdmin" data-bs-dismiss="offcanvas" aria-label="Close" href="#">Администратор</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-bg-light" @click="handleUser" data-bs-dismiss="offcanvas" aria-label="Close" href="#">Пользаватель</a>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -35,10 +42,16 @@ export default {
     name: "Navbar",
     methods: {
         handleLogin() {
-          this.$router.push("/login");
+          this.$router.push("/user");
         },
         handleRegistration() {
           this.$router.push("/registration");
+        },
+        handleAdmin() {
+          this.$router.push("/admin");
+        },
+        handleUser() {
+          this.$router.push("/user");
         },
     },
 }

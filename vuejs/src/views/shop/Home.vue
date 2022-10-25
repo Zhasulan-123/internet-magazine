@@ -1,8 +1,19 @@
 <template>
   <div class="container">
     <div class="row" style="margin-top: 6%;">
+      <div class="col">
+        <button class="btn btn-warning float-end position-relative" data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <CartIcon />
+           Корзина
+           <span class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
+            {{ cart.length}}+
+          </span>
+        </button>
+      </div>
+    </div>
+    <div class="row">
        <div class="col-3">
-          <h3>Списки тавара</h3>
+          <h3 class="text-primary">Списки тавара</h3>
           <Categoriies 
             v-for="list in categories"
             :key="list.id"
@@ -94,13 +105,15 @@
 import CartList from '@/components/Cart/CartList.vue';
 import Categoriies from '@/components/Categories/Categoriies.vue';
 import Delete from '@/icons/Delete.vue';
+import CartIcon from '@/icons/CartIcon.vue';
 
 export default {
   name: 'HomeView',
   components: {
     CartList,
     Categoriies,
-    Delete
+    Delete,
+    CartIcon
   },
   data() {
     return {
