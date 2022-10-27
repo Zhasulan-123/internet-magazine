@@ -22,4 +22,45 @@
    
    sudo chmod -R 777 ./*
 
-Сайт: localhost:8080  frontend - localhost:8083 backend - localhost:8000 phpMyAdmin
+6 Сайт: 
+
+   localhost:8080  frontend - vuejs
+
+   localhost:8083 backend - Laravel 9v
+
+   localhost:8000 phpMyAdmin
+
+     Пользователь: user
+     Пароль: test
+
+7 Postman
+
+   Регистрация
+  
+   localhost:8083/api/register - POST
+
+   headers Accept application/json
+
+   body -> x-www-form-urlencoded  name Астана email astana@mail.ru password astana
+
+   Авторизация
+
+   localhost:8083/api/login - POST
+
+   headers Accept application/json
+
+   body -> x-www-form-urlencoded  email astana@mail.ru password astana
+
+   Категория
+
+   localhost:8083/api/categories - GET
+
+   Продукты
+
+   localhost:8083/api/products - GET
+
+   Заказа
+
+   localhost:8083/api/order - GET
+
+   Bearer Token

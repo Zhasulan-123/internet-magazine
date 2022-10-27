@@ -46,7 +46,8 @@ class AuthController extends Controller
 
         if(!$user || !Hash::check($fields['password'], $user->password)) {
             return response([
-                'message' => 'Bad creds'
+                'message' => 'Логин/Пароль',
+                'status' => true
             ], 401);
         }
 
@@ -62,6 +63,7 @@ class AuthController extends Controller
     }
 
     public function logout(Request $request) {
+        
         auth()->user()->tokens()->delete();
 
         return [

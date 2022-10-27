@@ -1,15 +1,12 @@
 <template>
-    <tr>
-        <th scope="row">{{item.id}}</th>
-        <td>{{item.name}}</td>
-        <td>{{item.description}}</td>
-        <td>{{item.slug}}</td>
-        <td>{{item.category}}</td>
-        <td>{{item.price}}</td>
-        <td>{{item.length}}</td>
-        <td>{{item.width}}</td>
-        <td>{{item.weight}}</td>
-    </tr>
+  <tr>
+    <td>{{item.id}}</td>
+    <td>{{item.name}}</td>
+    <td>{{item.category.title}}</td>
+    <td>{{item.price}}т</td>
+    <td>{{item.qty}}</td>
+    <td>{{item.price * item.qty}}т</td>
+  </tr>
 </template>
 
 <script>

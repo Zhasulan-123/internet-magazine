@@ -5,14 +5,18 @@
       @dblclick="changeType"
       class="list-group-item list-group-item-action fw-bold text-primary"
     >
-      {{ categories.name }}
-      <span v-if="isFolder">{{ isOpen ? '-' : '+' }}</span>
+      <a href="#" @click="this.$emit('categoryId', categories.id)" v-if="!isFolder">
+         {{ categories.title }}
+      </a>
+      <span v-else>{{ categories.title }}</span>
+      <span v-if="isFolder">{{ isOpen ? ' -' : ' +' }}</span>
     </div>
     <ul v-show="isOpen" v-if="isFolder">
       <Categoriies
         v-for="categories in categories.children"
         :key="categories.id"
-        :categories="categories" 
+        :categories="categories"
+        @categoryId="categoryId"
       />
     </ul>
   </li>
@@ -27,7 +31,7 @@ export default {
       categories: Object
    },
    components: {
-     Categoriies
+      Categoriies
    },
    data() {
       return {
@@ -50,6 +54,9 @@ export default {
             this.categories.children = []
             this.isOpen = true
          }
+      },
+      categoryId(id){
+         this.$emit('categoryId', id);
       },
    }
 }

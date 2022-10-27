@@ -5,11 +5,10 @@ import authUser from "@/api/auth.user";
 const routes = [
   {
     path: '/',
-    name: 'home',
+    name: 'Home',
     meta: { title: 'Интернет Магазин'},
     component: () => import('@/views/shop/Home.vue')
   },
-  // User
   {
     path: '/login',
     name: 'Login',
@@ -28,7 +27,6 @@ const routes = [
     meta: { title: 'Пользователь', user: true },
     component: () => import('@/views/user/User.vue')
   },
-  // Admin
   {
     path: '/login-admin',
     name: 'AdminLogin',

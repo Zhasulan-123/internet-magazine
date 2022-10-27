@@ -15,19 +15,20 @@
        <div class="col-3">
           <h3 class="text-primary">Списки тавара</h3>
           <Categoriies 
+            class="list_pointer"
             v-for="list in categories"
             :key="list.id"
             :categories="list"
-            class="list_pointer"
+            @categoryId="categoryId"
           />
        </div>
        <div class="col-9">
           <div class="row">
             <CartList 
-                v-for="list in products"
-                :key="list.id"
-                :list="list"
-                @add="add"
+              v-for="list in filteredCategory"
+              :key="list.id"
+              :list="list"
+              @add="add"
             />
           </div>
        </div>
@@ -58,7 +59,7 @@
                         <tr v-for="item in cart" :key="item.id">
                             <td>{{item.id}}</td>
                             <td>{{item.name}}</td>
-                            <td>{{item.category}}</td>
+                            <td>{{item.category.title}}</td>
                             <td>{{item.price}}т</td>
                             <td>{{item.qty}}</td>
                             <td>{{item.price * item.qty}}т</td>
@@ -91,7 +92,7 @@
               <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Закрыть</button>
                 <button type="button" class="btn btn-danger" @click="clearCart">Очистить</button>
-                <button type="button" class="btn btn-primary">Оформить</button>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal" @click="handleDesign">Оформить</button>
               </div>
             </div>
           </div>
@@ -102,13 +103,15 @@
 </template>
 
 <script>
+import categoriesService from "@/api/public/categories.service";
+import productsService from "@/api/public/products.service";
 import CartList from '@/components/Cart/CartList.vue';
 import Categoriies from '@/components/Categories/Categoriies.vue';
 import Delete from '@/icons/Delete.vue';
 import CartIcon from '@/icons/CartIcon.vue';
 
 export default {
-  name: 'HomeView',
+  name: 'Home',
   components: {
     CartList,
     Categoriies,
@@ -117,144 +120,118 @@ export default {
   },
   data() {
     return {
-         products: [
-           {id: 1, name: 'Название 1', description: 'Описание 1', category: 'категория', price: 20, leng: '0.4м', width: '5м', weight: '3гр', qty: 1},
-           {id: 2, name: 'Название 2', description: 'Описание 2', category: 'категория', price: 20, leng: '0.4м', width: '5м', weight: '3гр', qty: 1},
-           {id: 3, name: 'Название 3', description: 'Описание 3', category: 'категория', price: 20, leng: '0.4м', width: '5м', weight: '3гр', qty: 1},
-           {id: 4, name: 'Название 4', description: 'Описание 4', category: 'категория', price: 20, leng: '0.4м', width: '5м', weight: '3гр', qty: 1},
-        ],
+        products: [],
         cart: [],
-        categories: [
-          {
-            id: 1,
-            name: 'Категория 1',
-            children: [
-              { id: 1, name: 'Категория 1' },
-              { id: 2, name: 'Категория 2' },
-              {
-                id: 3,
-                name: 'Категория 3',
-                children: [
-                  {
-                    id: 1,
-                    name: 'Категория 4',
-                    children: [{ name: 'Категория 5' }, { name: 'Категория 6' }]
-                  },
-                  { id: 2, name: 'Категория 7' },
-                  { id: 3, name: 'Категория 8' },
-                  {
-                    id: 4,
-                    name: 'Категория 9',
-                    children: [{ name: 'Категория 10' }, { name: 'Категория 11' }]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            id: 2,
-            name: 'Категория 2',
-            children: [
-              { id: 1, name: 'Категория 1' },
-              { id: 2, name: 'Категория 2' },
-              {
-                id: 3,
-                name: 'Категория 3',
-                children: [
-                  {
-                    id: 1,
-                    name: 'Категория 4',
-                    children: [{ name: 'Категория 5' }, { name: 'Категория 6' }]
-                  },
-                  { id: 2, name: 'Категория 7' },
-                  { id: 3, name: 'Категория 8' },
-                  {
-                    id: 4,
-                    name: 'Категория 9',
-                    children: [{ name: 'Категория 10' }, { name: 'Категория 11' }]
-                  }
-                ]
-              }
-            ]
-          },
-        ],
+        categories: [],
+        sortCategory: [],
     }
   },
   methods: {
-      createLocalStorage(){
-         localStorage.removeItem("cart");
-         localStorage.setItem("cart", JSON.stringify(this.cart));
-      },
-      add(product){
-         this.products[product.id - 1].inCart = true;
-         this.products[product.id - 1].qty = product.qty;
-         this.cart.push(product);
-         this.createLocalStorage();
-      },
-      remove(id){
-         for(let index = 0; index < this.cart.length; index++){
-            const cart_item_id = this.cart[index].id;
-
-            if(cart_item_id == id){
-               this.cart.splice(index, 1);
-                for(let i = 0; i < this.products.length; i++){
-                    if(cart_item_id == this.products[i].id){
-                        this.products[i].inCart = false;
-                        this.createLocalStorage();
-                    }
-                }
-            }
-
-            let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
-            if(cartLocalStorage == 0){
-                localStorage.removeItem("cart");
-                console.clear();
-            }
+    categoryId(id){
+      this.sortCategory = [];
+      let c = this;
+      this.products.map(function(item){
+         if(item.category_id === id){
+            c.sortCategory.push(item);
          }
-      },
-      clearCart(){
-        this.cart = [];
-        localStorage.removeItem("cart");
-        console.clear();
-        for(let i = 0; i < this.products.length; i++){
-            this.products[i].inCart = false;
+      });
+    },
+    handleDesign(){
+      this.$router.push("/user");
+    },
+    createLocalStorage(){
+      localStorage.removeItem("cart");
+      localStorage.setItem("cart", JSON.stringify(this.cart));
+    },
+    add(product){
+      this.products[product.id - 1].inCart = true;
+      this.products[product.id - 1].qty = product.qty;
+      this.cart.push(product);
+      this.createLocalStorage();
+    },
+    remove(id){
+      for(let index = 0; index < this.cart.length; index++){
+        const cart_item_id = this.cart[index].id;
+        if(cart_item_id == id){
+            this.cart.splice(index, 1);
+            for(let i = 0; i < this.products.length; i++){
+              if(cart_item_id == this.products[i].id){
+                this.products[i].inCart = false;
+                this.createLocalStorage();
+              }
+            }
         }
-      },
-      cartLocalStorage(){
-         if(localStorage.getItem("cart")){
-            let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
-            return cartLocalStorage;
-         }else{
-            return [];
-         }
-      },
-   },
-   computed: {
-      total(){
-        let i = 0;
-        for(let index = 0; index < this.cart.length; index++){
-            i += this.cart[index].price * this.cart[index].qty;
+        let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
+        if(cartLocalStorage == 0){
+          localStorage.removeItem("cart");
+          console.clear();
         }
-        return i;
-      },
-   },
-   mounted() {
-      this.cart = this.cartLocalStorage();
-
-      for(let index = 0; index < this.products.length; index++){
-         const product = this.products[index];
-
-         if(localStorage.getItem("cart")){
-            let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
-            for(let i = 0; i < cartLocalStorage.length; i++){
-                const cartItem = cartLocalStorage[i];
-                if(product.id == cartItem.id){
-                    product.inCart = true;
-                }
-            }
-         }
       }
-   },
+    },
+    clearCart(){
+      this.cart = [];
+      localStorage.removeItem("cart");
+      console.clear();
+      for(let i = 0; i < this.products.length; i++){
+        this.products[i].inCart = false;
+      }
+    },
+    cartLocalStorage(){
+      if(localStorage.getItem("cart")){
+        let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
+        return cartLocalStorage;
+      }else{
+        return [];
+      }
+    },
+    async categoriesAll(){
+      const {status, data} = await categoriesService.get();
+      if (status === 200) {
+        this.categories = data;
+      }
+    },
+    async productsAll(){
+      const {status, data} = await productsService.get();
+      if (status === 200) {
+        this.products = data;
+      }
+    },
+  },
+  computed: {
+    total(){
+      let i = 0;
+      for(let index = 0; index < this.cart.length; index++){
+          i += this.cart[index].price * this.cart[index].qty;
+      }
+      return i;
+    },
+    filteredCategory(){
+      if(this.sortCategory.length){
+        return this.sortCategory;
+      }else{
+        return this.products;
+      }
+    },
+  },
+  mounted() {
+    this.cart = this.cartLocalStorage();
+    for(let index = 0; index < this.products.length; index++){
+        const product = this.products[index];
+        if(localStorage.getItem("cart")){
+          let cartLocalStorage = JSON.parse(localStorage.getItem("cart"));
+          for(let i = 0; i < cartLocalStorage.length; i++){
+            const cartItem = cartLocalStorage[i];
+            if(product.id == cartItem.id){
+              product.inCart = true;
+            }
+          }
+        }
+    }
+  },
+  beforeMount() {
+    this.categoriesAll();
+    this.productsAll();
+	},
 }
 </script>
 

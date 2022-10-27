@@ -3,12 +3,12 @@
     <div class="card text-center fw-bold" style="width: 18rem;">
         <div class="card-header text-bg-secondary">{{list.name}}</div>
         <div class="card-body">
-            <p class="card-text">{{list.description}}</p>
-            <p class="card-text">{{list.category}}</p>
-            <p class="card-text">{{list.name}}</p>
-            <p class="card-title">{{list.price}}</p>
+            <p class="card-text"><span class="text-danger">Описание:</span>{{list.description}}</p>
+            <p class="card-text"><span class="text-danger">Категория:</span>{{list.category.title}}</p>
+            <p class="card-text"><span class="text-danger">Slug:</span>{{list.slug}}</p>
+            <p class="card-title"><span class="text-danger">Цена:</span>{{list.price}}</p>
             <p class="card-text">
-              Длина: {{list.leng}}, Ширина: {{list.width}}, Вес: {{list.weight}}
+              <span class="text-danger">Длина:</span> {{list.leng}}, <span class="text-danger">Ширина:</span> {{list.width}}, <span class="text-danger">Вес:</span> {{list.weight}}
             </p>
             <p>
               Кол-во:
@@ -38,8 +38,8 @@ export default {
    props: ["list"],
    components: {
     CartIcon,
-    InCart
-},
+      InCart
+   },
 }
 </script>
 

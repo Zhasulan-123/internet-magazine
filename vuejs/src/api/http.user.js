@@ -30,7 +30,7 @@ httpUser.interceptors.response.use(
   },
   error => {
     if (error.response.status === 401){
-      router.push({name: 'AdminLogin'})
+      router.push({name: 'User'})
     }
     /** TODO: Do something with response error */
     return Promise.reject(error);

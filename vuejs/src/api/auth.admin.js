@@ -14,15 +14,16 @@ const authAdmin = {
       const {status, data} = await httpAdmin.post('login', formData);
       if (data.status === true) {
         localStorage.setItem('ADMIN_TOKEN', data.token)
+        localStorage.setItem('email', data.user.email)
+        localStorage.setItem('username', data.user.name)
       }
       return {
         success: true
       }
     } catch (e) {
-      console.log(e.response);
       return {
         success: false,
-        errors: e.response.data.errors
+        errors: e.response.data
       }
     }
   },
@@ -31,13 +32,14 @@ const authAdmin = {
       const {data} = await httpAdmin.post('logout');
       if (data.status === true) {
         localStorage.removeItem('ADMIN_TOKEN');
+        localStorage.removeItem('email');
+        localStorage.removeItem('username');
         router.push('/login-admin');
       }
       return {
         success: true
       }
     } catch (e) {
-      console.log(e.response);
       return {
         success: false
       }
